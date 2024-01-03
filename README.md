@@ -8,4 +8,4 @@ The access token is generated during process that involves actual person's log-i
 
 For more information see https://developers.google.com/identity/protocols/oauth2. Because of limitations listed in https://developers.google.com/identity/protocols/oauth2/limited-input-device#allowedscopes I had to use https://developers.google.com/identity/protocols/oauth2/native-app. I don't really understand why there is such limitation when your application wants only to read calendar items as they can be shared to anybody by the user.
 
-The application components around SGAPI.py showcase minimal Micropython code to interact with Google Oauth2 that leaves some of RP2040 RAM free to run other tasks. Oops, I did it again!
+The application components around SGApi.py showcase minimal Micropython code to interact with Google Oauth2 that leaves some of RP2040 RAM free to run other tasks. Oops, I did it again!
