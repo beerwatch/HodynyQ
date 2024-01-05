@@ -52,7 +52,7 @@ class CON_HodynyQ:
         oldUIMode = self.UI_mode
         t = self.gmt2loc( time.time() )
         tt = self._dayPlan( self.UI_DAYTIME, time.localtime( t ) )
-        self.UI_mode = tt[ 0 ] > 0 and self.UI_DAY or self.UI_NIGHT
+        newMode = tt[ 0 ] > 0 and self.UI_DAY or self.UI_NIGHT
         tc = t - t % 86400 + tt[ 1 ]
 
         if self.alarms.alarm != 0 and self.UI_ALM_on:
@@ -62,10 +62,10 @@ class CON_HodynyQ:
                 te = ta + self.UI_ALMLIMIT
                 if t < te:
                     if t >= ta:
-                        self.UI_mode = self.UI_ALARM
+                        newMode = self.UI_ALARM
                         tc = te
                     elif t >= tr:
-                        self.UI_mode = self.UI_PREALARM
+                        newMode = self.UI_PREALARM
                         tc = ta
                     elif tr < tc:
                         tc = tr
@@ -86,9 +86,10 @@ class CON_HodynyQ:
         self.suspend()
         self.tmChg.init(period=(tc-t)*1000, mode=Timer.ONE_SHOT, callback=self._reRun )
 
-        if self.UI_ALM_on and ( updateAlarms or oldUIMode == self.UI_ALARM ):
+        if self.UI_ALM_on and ( updateAlarms or self.UI_mode == self.UI_ALARM ):
             self.alarms.enableUpdate()
 
+        self.UI_mode = newMode
         if self.UI_mode == self.UI_NIGHT:
             self.view.startNightView()
         elif self.UI_mode == self.UI_DAY:
